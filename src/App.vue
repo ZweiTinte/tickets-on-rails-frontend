@@ -1,27 +1,29 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <LeftSidebar></LeftSidebar>
+  <LaneArea></LaneArea>
+  <RightSidebar></RightSidebar>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+import { defineComponent } from "vue";
+import LeftSidebar from "./components/LeftSidebar.vue";
+import RightSidebar from "./components/RightSidebar.vue";
+import LaneArea from "./components/LaneArea.vue";
 
 export default defineComponent({
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
+    LeftSidebar,
+    RightSidebar,
+    LaneArea,
+  },
 });
 </script>
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 0;
 }
 </style>
