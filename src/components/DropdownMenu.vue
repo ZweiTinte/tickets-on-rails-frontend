@@ -1,5 +1,5 @@
 <template>
-  <div :class="dropdownStyle" ref="{ref}">
+  <div :class="dropdownStyle" @focusout="handleFocusOut" tabindex="0">
     <div class="dropdown" v-on:click="setOpen(!open)">{{ selected }}</div>
     <div v-if="open">
       <div
@@ -34,6 +34,9 @@ export default defineComponent({
     };
   },
   methods: {
+    handleFocusOut() {
+      this.setOpen(false);
+    },
     setOpen(openState: boolean) {
       this.open = openState;
       this.dropdownStyle = `colLayout dropdownBorder ${
@@ -41,7 +44,6 @@ export default defineComponent({
       }`;
     },
     onClick(item: string) {
-      console.log(item);
       this.selectedItem = (
         this.dropdownItems as Array<{ id: number; value: string }>
       ).filter(function (i) {

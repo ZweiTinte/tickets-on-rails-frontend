@@ -3,14 +3,20 @@
     <div class="dropdownWrapper">
       <DropdownMenu
         @itemSlected="setItem"
-        :dropdownItem="selectedProject"
+        :dropdownItem="selectedProject.value"
         :dropdownData="projectList"
       ></DropdownMenu>
+      <ul>
+        <li v-for="board in selectedProject.boards" :key="board">
+          {{ board }}
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { mockProjects } from "@/projects";
 import { defineComponent } from "vue";
 import DropdownMenu from "./DropdownMenu.vue";
 
@@ -18,16 +24,21 @@ export default defineComponent({
   components: { DropdownMenu },
   data() {
     return {
-      selectedProject: "Project 1",
-      projectList: [
-        { id: 1, value: "Project 1" },
-        { id: 2, value: "Project 2" },
-      ],
+      selectedProject: mockProjects[0],
+      projectList: mockProjects,
     };
   },
   methods: {
     setItem(item: string) {
-      this.selectedProject = item;
+      this.selectedProject = (
+        this.projectList as Array<{
+          id: number;
+          value: string;
+          boards: string[];
+        }>
+      ).filter(function (i) {
+        return i.value === item;
+      })[0];
     },
   },
 });

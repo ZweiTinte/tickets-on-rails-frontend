@@ -73,3 +73,20 @@ body {
 .dropdownWrapper {
   position: relative;
 }
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+li {
+  color: $white;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 0.5rem;
+  cursor: pointer;
+  &:hover {
+    border-bottom: 0.15rem solid $defaultHover;
+    padding-bottom: 0.6rem;
+  }
+}
