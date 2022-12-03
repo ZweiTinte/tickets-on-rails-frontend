@@ -39,7 +39,6 @@ export default defineComponent({
       ).filter(function (i) {
         return i.value === item;
       })[0];
-      console.log(this.selectedProject);
     },
   },
 });
