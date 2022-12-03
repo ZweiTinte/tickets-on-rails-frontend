@@ -2,16 +2,16 @@
   <div class="leftSidebar">
     <div class="dropdownWrapper">
       <DropdownMenu
-        @itemSlected="setItem"
+        @itemSelected="setItem"
         :dropdownItem="selectedProject.value"
         :dropdownData="projectList"
       ></DropdownMenu>
-      <ul>
-        <li v-for="board in selectedProject.boards" :key="board">
-          {{ board }}
-        </li>
-      </ul>
     </div>
+    <ul>
+      <li v-for="board in selectedProject.boards" :key="board">
+        {{ board }}
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -39,6 +39,7 @@ export default defineComponent({
       ).filter(function (i) {
         return i.value === item;
       })[0];
+      console.log(this.selectedProject);
     },
   },
 });
