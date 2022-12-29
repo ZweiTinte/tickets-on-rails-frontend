@@ -1,0 +1,36 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "value": "Project 1",
+      "boards": [1, 2]
+    },
+    {
+      "id": 2,
+      "value": "Project 2",
+      "boards": [3, 4, 5]
+    }
+  ],
+  "boards": [
+    {
+      "id": 1,
+      "value": "Happy Kitty"
+    },
+    {
+      "id": 2,
+      "value": "Kitty Management"
+    },
+    {
+      "id": 3,
+      "value": "Serious Business"
+    },
+    {
+      "id": 4,
+      "value": "Happy Fun Time"
+    },
+    {
+      "id": 5,
+      "value": "Special Events"
+    }
+  ]
+}

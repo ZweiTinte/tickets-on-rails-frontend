@@ -4,7 +4,7 @@
     <div v-if="open">
       <div
         class="dropdown"
-        v-for="item in dropdownItems"
+        v-for="item in getDropdownItems"
         :key="item.id"
         v-on:click="onClick(item.value)"
       >
@@ -12,6 +12,7 @@
       </div>
     </div>
   </div>
+  <div :class="spacerStyle"></div>
 </template>
 
 <script lang="ts">
@@ -31,6 +32,7 @@ export default defineComponent({
       dropdownItems: this.dropdownData,
       open: false,
       dropdownStyle: `colLayout dropdownBorder `,
+      spacerStyle: ``,
     };
   },
   methods: {
@@ -42,10 +44,11 @@ export default defineComponent({
       this.dropdownStyle = `colLayout dropdownBorder ${
         this.open ? "priority" : ""
       }`;
+      this.spacerStyle = `${this.open ? "dropdownSpacer" : ""}`;
     },
     onClick(item: string) {
       this.selectedItem = (
-        this.dropdownItems as Array<{ id: number; value: string }>
+        this.dropdownData as Array<{ id: number; value: string }>
       ).filter(function (i) {
         return i.value === item;
       })[0].value;
@@ -54,8 +57,11 @@ export default defineComponent({
     },
   },
   computed: {
+    getDropdownItems() {
+      return this.dropdownData;
+    },
     selected() {
-      return this.selectedItem;
+      return this.selectedItem || this.dropdownItem;
     },
   },
 });
