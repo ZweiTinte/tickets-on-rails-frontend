@@ -89,8 +89,15 @@ li {
     border-bottom: 0.15rem solid $defaultHover;
     padding-bottom: 0.6rem;
   }
+  margin-bottom: 0.25rem;
 }
 
 .dropdownSpacer {
   min-height: 2.45rem;
+}
+
+.activeBoard {
+  background-color: $defaultHover;
+  border-radius: 0.25rem;
+  cursor: default;
 }

@@ -8,7 +8,12 @@
       ></DropdownMenu>
     </div>
     <ul>
-      <li v-for="board in getBoards" :key="board.id">
+      <li
+        v-for="board in getBoards"
+        :key="board.id"
+        :class="board.id === activeBoard?.id ? 'activeBoard' : ''"
+        v-on:click="onBoardSelect(board)"
+      >
         {{ board.value }}
       </li>
     </ul>
@@ -16,6 +21,7 @@
 </template>
 
 <script lang="ts">
+import { Board, Project } from "@/interfaces";
 import { defineComponent } from "vue";
 import DropdownMenu from "./DropdownMenu.vue";
 
@@ -24,60 +30,37 @@ export default defineComponent({
   data() {
     return {
       selectedProject: { id: 0, value: "", boards: [0] },
-      projectList: [] as Array<{
-        id: number;
-        value: string;
-        boards: number[];
-      }>,
-      boards: [] as Array<{
-        id: number;
-        value: string;
-      }>,
+      projectList: [] as Project[],
+      boards: [] as Board[],
+      activeBoard: null as Board | null,
     };
   },
   methods: {
     setItem(item: string) {
-      this.selectedProject = (
-        this.projectList as Array<{
-          id: number;
-          value: string;
-          boards: number[];
-        }>
-      ).filter(function (i) {
+      this.selectedProject = (this.projectList as Project[]).filter(function (
+        i
+      ) {
         return i.value === item;
       })[0];
       this.fetchBoards();
     },
-    resolveFetchingProjects(
-      data: Array<{
-        id: number;
-        value: string;
-        boards: number[];
-      }>
-    ): void {
+    onBoardSelect(board: Board): void {
+      this.activeBoard = board;
+    },
+    resolveFetchingProjects(data: Project[]): void {
       this.projectList = data;
       this.selectedProject = data[0];
     },
-    resolveFetchingBoards(
-      data: Array<{
-        id: number;
-        value: string;
-      }>
-    ): void {
+    resolveFetchingBoards(data: Board[]): void {
       const fetchedData = data;
       this.boards = fetchedData.filter((item) => {
         return this.selectedProject.boards.includes(item.id);
       });
+      this.activeBoard = this.activeBoard || this.boards[0];
     },
     fetchProjects() {
       async function fetchData(
-        resolveFetching: (
-          data: Array<{
-            id: number;
-            value: string;
-            boards: number[];
-          }>
-        ) => void
+        resolveFetching: (data: Project[]) => void
       ): Promise<void> {
         await fetch("http://localhost:3000/api/projects")
           .then(async (res) => {
@@ -89,12 +72,7 @@ export default defineComponent({
     },
     fetchBoards() {
       async function fetchData(
-        resolveFetching: (
-          data: Array<{
-            id: number;
-            value: string;
-          }>
-        ) => void
+        resolveFetching: (data: Board[]) => void
       ): Promise<void> {
         await fetch("http://localhost:3000/api/boards")
           .then(async (res) => {
@@ -106,11 +84,11 @@ export default defineComponent({
     },
   },
   computed: {
-    getBoards(): Array<{
-      id: number;
-      value: string;
-    }> {
+    getBoards(): Board[] {
       return this.boards;
+    },
+    boardSelected(board: Board): string {
+      return board.id === this.activeBoard?.id ? "activeBoard" : "";
     },
   },
   beforeMount() {

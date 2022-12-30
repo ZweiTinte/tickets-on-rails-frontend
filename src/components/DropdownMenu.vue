@@ -16,6 +16,7 @@
 </template>
 
 <script lang="ts">
+import { Board } from "@/interfaces";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -47,9 +48,7 @@ export default defineComponent({
       this.spacerStyle = `${this.open ? "dropdownSpacer" : ""}`;
     },
     onClick(item: string) {
-      this.selectedItem = (
-        this.dropdownData as Array<{ id: number; value: string }>
-      ).filter(function (i) {
+      this.selectedItem = (this.dropdownData as Board[]).filter(function (i) {
         return i.value === item;
       })[0].value;
       this.$emit("itemSelected", this.selectedItem);
