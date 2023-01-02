@@ -27,6 +27,7 @@ export default defineComponent({
       type: [Array, Object],
     },
   },
+  emits: ["itemSelected"],
   data() {
     return {
       selectedItem: this.dropdownItem,
