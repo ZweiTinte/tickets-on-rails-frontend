@@ -30,7 +30,7 @@ export default defineComponent({
   components: { DropdownMenu },
   data() {
     return {
-      selectedProject: { id: 0, value: "", boards: [0] },
+      selectedProject: { id: 0, value: "" },
       projectList: [] as Project[],
       boards: [] as Board[],
       activeBoard: null as Board | null,
@@ -62,7 +62,7 @@ export default defineComponent({
     resolveFetchingBoards(data: Board[]): void {
       const fetchedData = data;
       this.boards = fetchedData.filter((item) => {
-        return this.selectedProject.boards.includes(item.id);
+        return this.selectedProject.id === item.project;
       });
       const activeId = localStorage.getItem("activeBoard");
       if (activeId) {

@@ -2,35 +2,74 @@
   "projects": [
     {
       "id": 1,
-      "value": "Project 1",
-      "boards": [1, 2]
+      "value": "Project 1"
     },
     {
       "id": 2,
-      "value": "Project 2",
-      "boards": [3, 4, 5]
+      "value": "Project 2"
     }
   ],
   "boards": [
     {
       "id": 1,
+      "project": 1,
       "value": "Happy Kitty"
     },
     {
       "id": 2,
+      "project": 1,
       "value": "Kitty Management"
     },
     {
       "id": 3,
+      "project": 2,
       "value": "Serious Business"
     },
     {
       "id": 4,
+      "project": 2,
       "value": "Happy Fun Time"
     },
     {
       "id": 5,
+      "project": 2,
       "value": "Special Events"
+    }
+  ],
+  "lanes": [
+    {
+      "id": 1,
+      "board": 1,
+      "value": "New"
+    },
+    {
+      "id": 2,
+      "board": 1,
+      "value": "Backlog"
+    },
+    {
+      "id": 3,
+      "board": 1,
+      "value": "In Progress"
+    },
+    {
+      "id": 4,
+      "board": 1,
+      "value": "Done"
+    }
+  ],
+  "tickets": [
+    {
+      "id": 1,
+      "lane": 1,
+      "name": "Make the kitty happy",
+      "description": "The kitty needs her special treatment."
+    },
+    {
+      "id": 2,
+      "lane": 1,
+      "name": "Feed the kitty",
+      "description": "She likes tuna."
     }
   ]
 }
