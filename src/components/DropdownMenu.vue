@@ -27,7 +27,6 @@ export default defineComponent({
       type: [Array, Object],
     },
   },
-  emits: ["itemSelected"],
   data() {
     return {
       selectedItem: this.dropdownItem,
@@ -52,7 +51,7 @@ export default defineComponent({
       this.selectedItem = (this.dropdownData as Board[]).filter(function (i) {
         return i.value === item;
       })[0].value;
-      this.$emit("itemSelected", this.selectedItem);
+      this.$parent?.$emit("itemSelected", this.selectedItem);
       this.setOpen(false);
     },
   },
