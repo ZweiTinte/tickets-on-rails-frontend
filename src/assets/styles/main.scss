@@ -72,6 +72,8 @@ body {
 
 .dropdownWrapper {
   position: relative;
+  border-radius: 0.25rem;
+  @include defaultHover;
 }
 
 ul {
@@ -87,7 +89,7 @@ li {
   cursor: pointer;
   &:hover {
     border-bottom: 0.15rem solid $defaultHover;
-    padding-bottom: 0.6rem;
+    padding-bottom: 0.65rem;
   }
   margin-bottom: 0.25rem;
 }
