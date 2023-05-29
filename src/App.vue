@@ -69,15 +69,16 @@ export default defineComponent({
       }
     },
     resolveFetchingBoards(data: Board[]): void {
-      const boards = data.filter((item) => {
+      this.boards = data.filter((item) => {
         return this.selectedProject.id === item.project;
       });
-      this.boards = boards;
       const activeId = localStorage.getItem("activeBoard");
       if (activeId) {
-        this.activeBoard = boards[parseInt(activeId) - 1];
+        this.activeBoard = this.boards.filter((board) => {
+          return board.id === parseInt(activeId);
+        })[0];
       } else {
-        this.activeBoard = this.activeBoard || boards[0];
+        this.activeBoard = this.activeBoard || this.boards[0];
       }
     },
     resolveFetchingLanes(data: Lane[]): void {

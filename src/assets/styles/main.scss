@@ -48,6 +48,7 @@ body {
 .dropdownBorder {
   border-radius: 0.25rem;
   border: 0.15rem solid $defaultHover;
+  max-width: 13.75rem;
 }
 
 .priority {
@@ -62,6 +63,7 @@ body {
   width: 12.8rem;
   padding: 0.5rem;
   cursor: pointer;
+  min-width: 13.75;
 }
 
 .colLayout {
@@ -94,7 +96,7 @@ li {
 }
 
 .dropdownSpacer {
-  min-height: 2.4rem;
+  height: 2.45rem;
 }
 
 .activeBoard {

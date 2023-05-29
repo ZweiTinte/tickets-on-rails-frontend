@@ -57,6 +57,7 @@ export default defineComponent({
       return (this.selectedProject as Project).value;
     },
     getActiveBoard(): Board | null {
+      console.log(this.activeBoard);
       return this.activeBoard as Board;
     },
   },
