@@ -8,7 +8,12 @@
     :boards="boards"
     :activeBoard="activeBoard"
   ></LeftSidebar>
-  <LaneArea v-if="ready" :lanes="lanes" :tickets="tickets"></LaneArea>
+  <LaneArea
+    v-if="ready"
+    :lanes="lanes"
+    :tickets="tickets"
+    :activeBoard="activeBoard"
+  ></LaneArea>
   <RightSidebar></RightSidebar>
 </template>
 
@@ -18,12 +23,7 @@ import LeftSidebar from "./components/LeftSidebar.vue";
 import RightSidebar from "./components/RightSidebar.vue";
 import LaneArea from "./components/LaneArea.vue";
 import { Board, Lane, Project, Ticket } from "./interfaces";
-import {
-  fetchProjectsData,
-  fetchBoardsData,
-  fetchLanesData,
-  fetchTicketsData,
-} from "@/api";
+import { fetchProjectsData, fetchBoardsData } from "@/api";
 
 export default defineComponent({
   name: "App",
@@ -56,8 +56,6 @@ export default defineComponent({
       this.activeBoard = board;
       localStorage.setItem("activeBoard", board.id.toString());
       localStorage.setItem("activeProject", this.selectedProject.id.toString());
-      this.fetchLanes();
-      this.fetchTickets();
     },
     resolveFetchingProjects(data: Project[]): void {
       this.projectList = data;
@@ -80,19 +78,6 @@ export default defineComponent({
       } else {
         this.activeBoard = this.activeBoard || this.boards[0];
       }
-    },
-    resolveFetchingLanes(data: Lane[]): void {
-      this.lanes = data.filter((item) => {
-        return this.activeBoard?.id === item.board;
-      });
-    },
-    resolveFetchingTickets(data: Ticket[]): void {
-      const laneIds = this.lanes.map((lane) => {
-        return lane.id;
-      });
-      this.tickets = data.filter((item) => {
-        return laneIds.includes(item.lane);
-      });
       this.ready = true;
     },
     fetchProjects() {
@@ -101,18 +86,10 @@ export default defineComponent({
     fetchBoards() {
       fetchBoardsData(this.resolveFetchingBoards);
     },
-    fetchLanes() {
-      fetchLanesData(this.resolveFetchingLanes);
-    },
-    fetchTickets() {
-      fetchTicketsData(this.resolveFetchingTickets);
-    },
   },
   beforeMount() {
     this.fetchProjects();
     this.fetchBoards();
-    this.fetchLanes();
-    this.fetchTickets();
   },
 });
 </script>

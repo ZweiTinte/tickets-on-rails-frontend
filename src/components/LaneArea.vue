@@ -17,19 +17,56 @@
 </template>
 
 <script lang="ts">
-import { Lane, Ticket } from "@/interfaces";
+import { fetchLanesData, fetchTicketsData } from "@/api";
+import { Board, Lane, Ticket } from "@/interfaces";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
-    lanes: { required: true, type: [Array, Object] },
-    tickets: { required: true, type: [Array, Object] },
+    activeBoard: {
+      required: true,
+      type: [Array, Object],
+    },
+  },
+  watch: {
+    $props: {
+      handler: function () {
+        this.changeHandler();
+      },
+      deep: true,
+    },
   },
   data() {
     return {
-      lanesL: this.lanes as Lane[],
-      ticketsL: this.tickets as Ticket[],
+      lanes: [] as Lane[],
+      tickets: [] as Ticket[],
+      activeBoardL: this.activeBoard as Board,
     };
+  },
+  methods: {
+    resolveFetchingLanes(data: Lane[]): void {
+      this.lanes = data.filter((item) => {
+        return (this.activeBoard as Board)?.id === item.board;
+      });
+    },
+    resolveFetchingTickets(data: Ticket[]): void {
+      const laneIds = this.lanes.map((lane) => {
+        return lane.id;
+      });
+      this.tickets = data.filter((item) => {
+        return laneIds.includes(item.lane);
+      });
+    },
+    fetchLanes() {
+      fetchLanesData(this.resolveFetchingLanes);
+    },
+    fetchTickets() {
+      fetchTicketsData(this.resolveFetchingTickets);
+    },
+    changeHandler() {
+      this.fetchLanes();
+      this.fetchTickets();
+    },
   },
   computed: {
     getLanes(): Lane[] {
@@ -41,6 +78,9 @@ export default defineComponent({
           return ticket.lane === laneId;
         });
       };
+    },
+    getActiveBoard(): Board {
+      return this.activeBoard as Board;
     },
   },
 });
