@@ -39,7 +39,7 @@ export default defineComponent({
       boards: [] as Board[],
       lanes: [] as Lane[],
       tickets: [] as Ticket[],
-      activeBoard: null as Board | null,
+      activeBoard: { id: 0, project: 0, value: "" } as Board,
       ready: false,
     };
   },

@@ -34,6 +34,7 @@ export default defineComponent({
         this.changeHandler();
       },
       deep: true,
+      immediate: true,
     },
   },
   data() {
