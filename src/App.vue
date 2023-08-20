@@ -1,6 +1,6 @@
 <template>
   <LeftSidebar
-    v-if="ready"
+    v-if="boardsReady && projectsReady"
     @itemSelected="setItem"
     @boardSelected="boardSelect"
     :selectedProject="selectedProject"
@@ -9,12 +9,13 @@
     :activeBoard="activeBoard"
   ></LeftSidebar>
   <LaneArea
-    v-if="ready"
+    v-if="boardsReady && ticketsReady"
     :lanes="lanes"
     :tickets="tickets"
     :activeBoard="activeBoard"
+    @ticketSelected="ticketSelect"
   ></LaneArea>
-  <RightSidebar></RightSidebar>
+  <RightSidebar :activeTicket="activeTicket"></RightSidebar>
 </template>
 
 <script lang="ts">
@@ -23,7 +24,7 @@ import LeftSidebar from "./components/LeftSidebar.vue";
 import RightSidebar from "./components/RightSidebar.vue";
 import LaneArea from "./components/LaneArea.vue";
 import { Board, Lane, Project, Ticket } from "./interfaces";
-import { fetchProjectsData, fetchBoardsData } from "@/api";
+import { fetchProjectsData, fetchBoardsData, fetchTicketsData } from "@/api";
 
 export default defineComponent({
   name: "App",
@@ -40,7 +41,10 @@ export default defineComponent({
       lanes: [] as Lane[],
       tickets: [] as Ticket[],
       activeBoard: { id: 0, project: 0, value: "" } as Board,
-      ready: false,
+      activeTicket: { id: 0, lane: 0, name: "", description: "" } as Ticket,
+      boardsReady: false,
+      ticketsReady: false,
+      projectsReady: false,
     };
   },
   methods: {
@@ -57,6 +61,10 @@ export default defineComponent({
       localStorage.setItem("activeBoard", board.id.toString());
       localStorage.setItem("activeProject", this.selectedProject.id.toString());
     },
+    ticketSelect(ticket: Ticket) {
+      this.activeTicket = ticket;
+      localStorage.setItem("activeTicket", ticket.id.toString());
+    },
     resolveFetchingProjects(data: Project[]): void {
       this.projectList = data;
       const activeId = localStorage.getItem("activeProject");
@@ -65,6 +73,7 @@ export default defineComponent({
       } else {
         this.selectedProject = data[0];
       }
+      this.projectsReady = true;
     },
     resolveFetchingBoards(data: Board[]): void {
       this.boards = data.filter((item) => {
@@ -78,7 +87,17 @@ export default defineComponent({
       } else {
         this.activeBoard = this.activeBoard || this.boards[0];
       }
-      this.ready = true;
+      this.boardsReady = true;
+    },
+    resolveFetchingTickets(data: Ticket[]): void {
+      this.tickets = data;
+      const activeId = localStorage.getItem("activeTicket");
+      if (activeId) {
+        this.activeTicket = data[parseInt(activeId) - 1];
+      } else {
+        this.activeTicket = data[0];
+      }
+      this.ticketsReady = true;
     },
     fetchProjects() {
       fetchProjectsData(this.resolveFetchingProjects);
@@ -86,10 +105,14 @@ export default defineComponent({
     fetchBoards() {
       fetchBoardsData(this.resolveFetchingBoards);
     },
+    fetchTickets() {
+      fetchTicketsData(this.resolveFetchingTickets);
+    },
   },
   beforeMount() {
     this.fetchProjects();
     this.fetchBoards();
+    this.fetchTickets();
   },
 });
 </script>

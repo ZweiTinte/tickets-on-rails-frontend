@@ -8,6 +8,7 @@
         class="ticket"
         v-for="ticket in getTickets(lane.id)"
         :key="ticket.id"
+        v-on:click="selectTicket(ticket)"
       >
         {{ ticket.name }}
       </div>
@@ -24,7 +25,6 @@ import { defineComponent } from "vue";
 export default defineComponent({
   props: {
     activeBoard: {
-      required: true,
       type: [Array, Object],
     },
   },
@@ -37,6 +37,7 @@ export default defineComponent({
       immediate: true,
     },
   },
+  emits: ["ticketSelected"],
   data() {
     return {
       lanes: [] as Lane[],
@@ -67,6 +68,9 @@ export default defineComponent({
     changeHandler() {
       this.fetchLanes();
       this.fetchTickets();
+    },
+    selectTicket(ticket: Ticket) {
+      this.$emit("ticketSelected", ticket);
     },
   },
   computed: {

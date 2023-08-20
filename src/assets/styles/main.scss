@@ -20,6 +20,7 @@ body {
   border-left: 0.25rem solid $itemBorder;
   width: 20rem;
   z-index: 1;
+  color: $white;
 }
 
 .laneArea {
@@ -111,6 +112,7 @@ li {
   padding: 0.5rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+  line-height: 1.5rem;
   cursor: pointer;
 }
 
@@ -121,4 +123,15 @@ li {
   margin-left: 0.25rem;
   border-bottom: 0.15rem solid $defaultHover;
   width: max-content;
+  max-width: 100%;
+  line-height: 1.5rem;
+  font-size: 1.25rem;
+}
+
+.ticketDescription {
+  margin-bottom: 1rem;
+  padding-bottom: 0.25rem;
+  padding-top: 0.25rem;
+  margin-left: 0.25rem;
+  line-height: 1.5rem;
 }
