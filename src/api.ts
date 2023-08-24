@@ -3,7 +3,7 @@ import { Project, Board, Lane, Ticket } from "./interfaces";
 export async function fetchProjectsData(
   resolveFetching: (data: Project[]) => void
 ): Promise<void> {
-  await fetch("http://localhost:3000/api/projects")
+  await fetch("http://localhost:3030/api/projects")
     .then(async (res) => {
       await res.json().then(resolveFetching).catch();
     })
@@ -13,7 +13,7 @@ export async function fetchProjectsData(
 export async function fetchBoardsData(
   resolveFetching: (data: Board[]) => void
 ): Promise<void> {
-  await fetch("http://localhost:3000/api/boards")
+  await fetch("http://localhost:3030/api/boards")
     .then(async (res) => {
       await res.json().then(resolveFetching).catch();
     })
@@ -23,7 +23,7 @@ export async function fetchBoardsData(
 export async function fetchLanesData(
   resolveFetching: (data: Lane[]) => void
 ): Promise<void> {
-  await fetch("http://localhost:3000/api/lanes")
+  await fetch("http://localhost:3030/api/lanes")
     .then(async (res) => {
       await res.json().then(resolveFetching).catch();
     })
@@ -33,7 +33,7 @@ export async function fetchLanesData(
 export async function fetchTicketsData(
   resolveFetching: (data: Ticket[]) => void
 ): Promise<void> {
-  await fetch("http://localhost:3000/api/tickets")
+  await fetch("http://localhost:3030/api/tickets")
     .then(async (res) => {
       await res.json().then(resolveFetching).catch();
     })
