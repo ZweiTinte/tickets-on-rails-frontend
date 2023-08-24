@@ -18,7 +18,6 @@
 </template>
 
 <script lang="ts">
-import { fetchLanesData, fetchTicketsData } from "@/api";
 import { Board, Lane, Ticket } from "@/interfaces";
 import { defineComponent } from "vue";
 
@@ -27,48 +26,17 @@ export default defineComponent({
     activeBoard: {
       type: [Array, Object],
     },
-  },
-  watch: {
-    $props: {
-      handler: function () {
-        this.changeHandler();
-      },
-      deep: true,
-      immediate: true,
-    },
+    tickets: [Array, Object],
+    lanes: [Array, Object],
   },
   emits: ["ticketSelected"],
   data() {
     return {
-      lanes: [] as Lane[],
-      tickets: [] as Ticket[],
+      ticketsL: this.tickets as Ticket[],
       activeBoardL: this.activeBoard as Board,
     };
   },
   methods: {
-    resolveFetchingLanes(data: Lane[]): void {
-      this.lanes = data.filter((item) => {
-        return (this.activeBoard as Board)?.id === item.board;
-      });
-    },
-    resolveFetchingTickets(data: Ticket[]): void {
-      const laneIds = this.lanes.map((lane) => {
-        return lane.id;
-      });
-      this.tickets = data.filter((item) => {
-        return laneIds.includes(item.lane);
-      });
-    },
-    fetchLanes() {
-      fetchLanesData(this.resolveFetchingLanes);
-    },
-    fetchTickets() {
-      fetchTicketsData(this.resolveFetchingTickets);
-    },
-    changeHandler() {
-      this.fetchLanes();
-      this.fetchTickets();
-    },
     selectTicket(ticket: Ticket) {
       this.$emit("ticketSelected", ticket);
     },

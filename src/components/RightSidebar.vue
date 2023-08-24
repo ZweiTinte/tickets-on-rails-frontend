@@ -3,15 +3,18 @@
     <div class="laneTitle">
       {{ getActiveTicket.name }}
     </div>
-    <div class="ticketDescription">
-      {{ getActiveTicket.description }}
+    <textarea v-model="getActiveTicket.description" class="ticketDescription">
+    </textarea>
+    <div class="ticketLane">
+      <span>Lane:</span>
+      <span>{{ getLaneName }}</span>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { Ticket } from "@/interfaces";
+import { Lane, Ticket } from "@/interfaces";
 
 export default defineComponent({
   props: {
@@ -19,15 +22,22 @@ export default defineComponent({
       required: true,
       type: [Array, Object],
     },
+    lanes: [Array, Object],
   },
   data() {
     return {
       activeTicketItem: this.activeTicket as Ticket,
+      lanesL: this.lanes as Lane[],
     };
   },
   computed: {
     getActiveTicket(): Ticket {
       return this.activeTicket as Ticket;
+    },
+    getLaneName(): string {
+      return this.lanesL.filter((lane) => {
+        return lane.id === (this.activeTicket as Ticket).lane;
+      })[0].name;
     },
   },
 });

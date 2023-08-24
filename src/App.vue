@@ -9,13 +9,17 @@
     :activeBoard="activeBoard"
   ></LeftSidebar>
   <LaneArea
-    v-if="boardsReady && ticketsReady"
-    :lanes="lanes"
+    v-if="boardsReady && ticketsReady && lanesReady"
+    :lanes="activeLanes"
     :tickets="tickets"
     :activeBoard="activeBoard"
     @ticketSelected="ticketSelect"
   ></LaneArea>
-  <RightSidebar :activeTicket="activeTicket"></RightSidebar>
+  <RightSidebar
+    v-if="lanesReady && ticketsReady"
+    :activeTicket="activeTicket"
+    :lanes="lanes"
+  ></RightSidebar>
 </template>
 
 <script lang="ts">
@@ -24,7 +28,12 @@ import LeftSidebar from "./components/LeftSidebar.vue";
 import RightSidebar from "./components/RightSidebar.vue";
 import LaneArea from "./components/LaneArea.vue";
 import { Board, Lane, Project, Ticket } from "./interfaces";
-import { fetchProjectsData, fetchBoardsData, fetchTicketsData } from "@/api";
+import {
+  fetchProjectsData,
+  fetchBoardsData,
+  fetchTicketsData,
+  fetchLanesData,
+} from "@/api";
 
 export default defineComponent({
   name: "App",
@@ -40,24 +49,29 @@ export default defineComponent({
       boards: [] as Board[],
       lanes: [] as Lane[],
       tickets: [] as Ticket[],
+      activeLanes: [] as Lane[],
       activeBoard: { id: 0, project: 0, value: "" } as Board,
       activeTicket: { id: 0, lane: 0, name: "", description: "" } as Ticket,
       boardsReady: false,
       ticketsReady: false,
       projectsReady: false,
+      lanesReady: false,
     };
   },
   methods: {
-    setItem(item: string) {
+    async setItem(item: string) {
       this.selectedProject = (this.projectList as Project[]).filter(function (
         i
       ) {
         return i.value === item;
       })[0];
-      this.fetchBoards();
+      await fetchBoardsData(this.resolveFetchingBoards);
     },
-    boardSelect(board: Board) {
+    async boardSelect(board: Board) {
       this.activeBoard = board;
+      this.activeLanes = this.lanes.filter((item) => {
+        return (board as Board)?.id === item.board;
+      });
       localStorage.setItem("activeBoard", board.id.toString());
       localStorage.setItem("activeProject", this.selectedProject.id.toString());
     },
@@ -99,20 +113,23 @@ export default defineComponent({
       }
       this.ticketsReady = true;
     },
-    fetchProjects() {
-      fetchProjectsData(this.resolveFetchingProjects);
+    resolveFetchingLanes(data: Lane[]): void {
+      this.lanes = data;
+      this.activeLanes = this.lanes.filter((item) => {
+        return (this.activeBoard as Board)?.id === item.board;
+      });
+      this.lanesReady = true;
     },
-    fetchBoards() {
-      fetchBoardsData(this.resolveFetchingBoards);
-    },
-    fetchTickets() {
-      fetchTicketsData(this.resolveFetchingTickets);
+    async fetchData() {
+      await fetchProjectsData(this.resolveFetchingProjects);
+      await fetchBoardsData(this.resolveFetchingBoards).then(async () => {
+        await fetchLanesData(this.resolveFetchingLanes);
+      });
+      await fetchTicketsData(this.resolveFetchingTickets);
     },
   },
   beforeMount() {
-    this.fetchProjects();
-    this.fetchBoards();
-    this.fetchTickets();
+    this.fetchData();
   },
 });
 </script>
