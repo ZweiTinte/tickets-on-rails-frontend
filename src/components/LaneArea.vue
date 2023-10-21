@@ -1,6 +1,12 @@
 <template>
   <div class="laneArea">
-    <div class="lane" v-for="lane in getLanes" :key="lane.id">
+    <div
+      class="lane"
+      v-for="lane in getLanes"
+      :key="lane.id"
+      v-on:drop="drop"
+      v-on:dragover="allowDrop"
+    >
       <div class="laneTitle">
         {{ lane.name }}
       </div>
@@ -8,7 +14,10 @@
         class="ticket"
         v-for="ticket in getTickets(lane.id)"
         :key="ticket.id"
+        :id="ticket.id.toString()"
         v-on:click="selectTicket(ticket)"
+        draggable="true"
+        v-on:dragstart="drag"
       >
         {{ ticket.name }}
       </div>
@@ -39,6 +48,23 @@ export default defineComponent({
   methods: {
     selectTicket(ticket: Ticket) {
       this.$emit("ticketSelected", ticket);
+    },
+    drag(ev: DragEvent) {
+      ev.dataTransfer?.setData("id", (ev.target as HTMLDivElement)?.id);
+    },
+    drop(ev: DragEvent) {
+      ev.preventDefault();
+      const data = ev.dataTransfer?.getData("id");
+      if (!data) {
+        return;
+      }
+      const ticket = document.getElementById(data);
+      if (ticket) {
+        (ev.target as HTMLDivElement).appendChild(ticket);
+      }
+    },
+    allowDrop(ev: DragEvent) {
+      ev.preventDefault();
     },
   },
   computed: {
