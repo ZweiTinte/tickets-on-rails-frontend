@@ -39,3 +39,25 @@ export async function fetchTicketsData(
     })
     .catch();
 }
+
+export async function updateTicket(
+  resolveFetching: () => void,
+  ticketId: string,
+  ticket: Ticket
+): Promise<void> {
+  await fetch(`http://localhost:3030/api/tickets/${ticketId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: ticket.name,
+      description: ticket.description,
+      lane: ticket.lane,
+    }),
+  })
+    .then(async (res) => {
+      await res.json().then(resolveFetching).catch();
+    })
+    .catch();
+}

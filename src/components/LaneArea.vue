@@ -4,6 +4,7 @@
       class="lane"
       v-for="lane in getLanes"
       :key="lane.id"
+      :id="lane.id.toString()"
       v-on:drop="drop"
       v-on:dragover="allowDrop"
     >
@@ -14,7 +15,7 @@
         class="ticket"
         v-for="ticket in getTickets(lane.id)"
         :key="ticket.id"
-        :id="ticket.id.toString()"
+        :id="'ticket' + ticket.id.toString()"
         v-on:click="selectTicket(ticket)"
         draggable="true"
         v-on:dragstart="drag"
@@ -38,7 +39,7 @@ export default defineComponent({
     tickets: [Array, Object],
     lanes: [Array, Object],
   },
-  emits: ["ticketSelected"],
+  emits: ["ticketSelected", "ticketUpdated"],
   data() {
     return {
       ticketsL: this.tickets as Ticket[],
@@ -54,13 +55,15 @@ export default defineComponent({
     },
     drop(ev: DragEvent) {
       ev.preventDefault();
-      const data = ev.dataTransfer?.getData("id");
-      if (!data) {
+      const ticketId = ev.dataTransfer?.getData("id");
+      if (!ticketId) {
         return;
       }
-      const ticket = document.getElementById(data);
-      if (ticket) {
+      const ticket = document.getElementById(ticketId);
+      const laneId = (ev.target as HTMLDivElement)?.id;
+      if (ticket && laneId) {
         (ev.target as HTMLDivElement).appendChild(ticket);
+        this.$emit("ticketUpdated", ticketId.replace("ticket", ""), laneId);
       }
     },
     allowDrop(ev: DragEvent) {

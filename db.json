@@ -80,16 +80,16 @@
   ],
   "tickets": [
     {
-      "id": 1,
-      "lane": 1,
       "name": "Make the kitty happy",
-      "description": "The kitty needs her special treatment."
+      "description": "The kitty needs her special treatment.",
+      "lane": 3,
+      "id": 1
     },
     {
-      "id": 2,
-      "lane": 1,
       "name": "Feed the kitty",
-      "description": "She likes tuna."
+      "description": "She likes tuna.",
+      "lane": 1,
+      "id": 2
     },
     {
       "id": 3,
