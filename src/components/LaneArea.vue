@@ -10,6 +10,12 @@
     >
       <div class="laneTitle">
         {{ lane.name }}
+        <input
+          type="button"
+          class="newButton"
+          value="+"
+          v-on:click="newTicket(lane.id)"
+        />
       </div>
       <div
         class="ticket"
@@ -39,7 +45,7 @@ export default defineComponent({
     tickets: [Array, Object],
     lanes: [Array, Object],
   },
-  emits: ["ticketSelected", "ticketUpdated"],
+  emits: ["ticketSelected", "ticketUpdated", "newTicket"],
   data() {
     return {
       ticketsL: this.tickets as Ticket[],
@@ -49,6 +55,9 @@ export default defineComponent({
   methods: {
     selectTicket(ticket: Ticket) {
       this.$emit("ticketSelected", ticket);
+    },
+    newTicket(laneId: number) {
+      this.$emit("newTicket", laneId);
     },
     drag(ev: DragEvent) {
       ev.dataTransfer?.setData("id", (ev.target as HTMLDivElement)?.id);

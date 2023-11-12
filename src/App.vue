@@ -15,6 +15,7 @@
     :activeBoard="activeBoard"
     @ticketSelected="ticketSelect"
     @ticketUpdated="ticketUpdate"
+    @newTicket="ticketCreate"
   ></LaneArea>
   <RightSidebar
     v-if="lanesReady && ticketsReady"
@@ -35,6 +36,7 @@ import {
   fetchTicketsData,
   fetchLanesData,
   updateTicket,
+  createTicket,
 } from "@/api";
 
 export default defineComponent({
@@ -81,6 +83,15 @@ export default defineComponent({
       this.activeTicket = ticket;
       localStorage.setItem("activeTicket", ticket.id.toString());
     },
+    ticketCreate(laneId: number) {
+      const newTicket = {
+        lane: laneId,
+        name: "New Ticket",
+        description: "",
+        id: 0,
+      };
+      this.createNewTicket(newTicket);
+    },
     async ticketUpdate(ticketId: string, laneId: string) {
       const ticket = this.tickets.filter((t) => {
         return t.id.toString() === ticketId;
@@ -93,6 +104,11 @@ export default defineComponent({
         ticketId,
         ticket
       );
+    },
+    async createNewTicket(ticket: Ticket) {
+      await createTicket(() => {
+        this.fetchData();
+      }, ticket);
     },
     resolveFetchingProjects(data: Project[]): void {
       this.projectList = data;
