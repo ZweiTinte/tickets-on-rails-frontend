@@ -96,6 +96,10 @@ li {
   margin-bottom: 0.25rem;
 }
 
+.flex {
+  display: flex;
+}
+
 .dropdownSpacer {
   height: 2.45rem;
 }
@@ -120,16 +124,22 @@ li {
   margin-bottom: 1rem;
   padding-bottom: 0.25rem;
   padding-top: 0.25rem;
-  margin-left: 0.25rem;
+  margin-left: 0;
+  margin-right: 0;
   border-bottom: 0.15rem solid $defaultHover;
+  border-top: none;
+  border-left: none;
+  border-right: none;
   width: max-content;
   max-width: 100%;
   line-height: 1.5rem;
   font-size: 1.25rem;
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
+  width: 90%;
+  color: $white;
+  &:focus {
+    outline: none;
+  }
+  background: transparent;
 }
 
 .newButton {
@@ -140,6 +150,22 @@ li {
   width: 2rem;
   height: 2rem;
   padding-top: 0;
+  cursor: pointer;
+  &:hover {
+    border-radius: 0.25rem;
+    border: 0.15rem solid $defaultHover;
+  }
+}
+
+.deleteButton {
+  background-color: rgb(107, 20, 20);
+  color: $white;
+  border: 0.15rem solid rgb(77, 15, 15);
+  font-size: 1rem;
+  width: 2rem;
+  height: 2rem;
+  padding-top: 0;
+  margin-left: 0.5rem;
   cursor: pointer;
   &:hover {
     border-radius: 0.25rem;
@@ -162,6 +188,8 @@ li {
   box-sizing: border-box;
   font-weight: 400;
   font-family: "Ubuntu";
+  resize: vertical;
+  height: 20rem;
 }
 
 .ticketLane {

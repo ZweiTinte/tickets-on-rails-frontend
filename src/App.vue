@@ -14,13 +14,15 @@
     :tickets="tickets"
     :activeBoard="activeBoard"
     @ticketSelected="ticketSelect"
-    @ticketUpdated="ticketUpdate"
+    @ticketUpdated="ticketLaneUpdate"
     @newTicket="ticketCreate"
   ></LaneArea>
   <RightSidebar
     v-if="lanesReady && ticketsReady"
     :activeTicket="activeTicket"
     :lanes="lanes"
+    @saveTicket="ticketUpdate"
+    @deleteTicket="ticketDelete"
   ></RightSidebar>
 </template>
 
@@ -37,6 +39,7 @@ import {
   fetchLanesData,
   updateTicket,
   createTicket,
+  deleteTicket,
 } from "@/api";
 
 export default defineComponent({
@@ -92,7 +95,7 @@ export default defineComponent({
       };
       this.createNewTicket(newTicket);
     },
-    async ticketUpdate(ticketId: string, laneId: string) {
+    async ticketLaneUpdate(ticketId: string, laneId: string) {
       const ticket = this.tickets.filter((t) => {
         return t.id.toString() === ticketId;
       })[0];
@@ -104,6 +107,20 @@ export default defineComponent({
         ticketId,
         ticket
       );
+    },
+    async ticketUpdate(ticket: Ticket) {
+      await updateTicket(
+        () => {
+          this.fetchData();
+        },
+        ticket.id.toString(),
+        ticket
+      );
+    },
+    async ticketDelete(ticketId: number) {
+      await deleteTicket(() => {
+        this.fetchData();
+      }, ticketId.toString());
     },
     async createNewTicket(ticket: Ticket) {
       await createTicket(() => {

@@ -82,3 +82,19 @@ export async function createTicket(
     })
     .catch();
 }
+
+export async function deleteTicket(
+  resolveFetching: () => void,
+  ticketId: string
+): Promise<void> {
+  await fetch(`http://localhost:3030/api/tickets/${ticketId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(async (res) => {
+      await res.json().then(resolveFetching).catch();
+    })
+    .catch();
+}

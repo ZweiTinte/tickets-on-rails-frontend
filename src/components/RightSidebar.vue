@@ -1,9 +1,24 @@
 <template>
   <div class="rightSidebar">
-    <div class="laneTitle">
-      {{ getActiveTicket.name }}
+    <div class="flex">
+      <input
+        type="text"
+        v-model="getActiveTicket.name"
+        class="laneTitle"
+        v-on:blur="saveTicket(getActiveTicket)"
+      />
+      <button
+        className="deleteButton"
+        v-on:click="deleteTicket(getActiveTicket.id)"
+      >
+        x
+      </button>
     </div>
-    <textarea v-model="getActiveTicket.description" class="ticketDescription">
+    <textarea
+      v-model="getActiveTicket.description"
+      class="ticketDescription"
+      v-on:blur="saveTicket(getActiveTicket)"
+    >
     </textarea>
     <div class="ticketLane">
       <span>Lane:</span>
@@ -24,11 +39,20 @@ export default defineComponent({
     },
     lanes: [Array, Object],
   },
+  emits: ["saveTicket", "deleteTicket"],
   data() {
     return {
       activeTicketItem: this.activeTicket as Ticket,
       lanesL: this.lanes as Lane[],
     };
+  },
+  methods: {
+    saveTicket(ticket: Ticket) {
+      this.$emit("saveTicket", ticket);
+    },
+    deleteTicket(ticketId: number) {
+      this.$emit("deleteTicket", ticketId);
+    },
   },
   computed: {
     getActiveTicket(): Ticket {

@@ -102,18 +102,6 @@
       "lane": 8,
       "name": "Prepare for Job Interview",
       "description": "Practice Vue coding and prepare for challenging questions."
-    },
-    {
-      "name": "New Ticket",
-      "description": "",
-      "lane": 1,
-      "id": 5
-    },
-    {
-      "name": "New Ticket",
-      "description": "",
-      "lane": 2,
-      "id": 6
     }
   ]
 }
