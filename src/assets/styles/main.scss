@@ -122,6 +122,29 @@ li {
 
 .laneTitle {
   margin-bottom: 1rem;
+  padding-top: 0.25rem;
+  margin-left: 0;
+  margin-right: 0;
+  border-bottom: 0.15rem solid $defaultHover;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  width: max-content;
+  max-width: 100%;
+  display: flex;
+  justify-content: space-between;
+  line-height: 1.5rem;
+  font-size: 1.25rem;
+  width: 100%;
+  color: $white;
+  &:focus {
+    outline: none;
+  }
+  background: transparent;
+}
+
+.ticketTitle {
+  margin-bottom: 1rem;
   padding-bottom: 0.25rem;
   padding-top: 0.25rem;
   margin-left: 0;
@@ -149,6 +172,7 @@ li {
   font-size: 1.5rem;
   width: 2rem;
   height: 2rem;
+  margin-bottom: 0.25rem;
   padding-top: 0;
   cursor: pointer;
   &:hover {

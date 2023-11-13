@@ -4,7 +4,7 @@
       <input
         type="text"
         v-model="getActiveTicket.name"
-        class="laneTitle"
+        class="ticketTitle"
         v-on:blur="saveTicket(getActiveTicket)"
       />
       <button
