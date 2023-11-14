@@ -16,6 +16,8 @@
     @ticketSelected="ticketSelect"
     @ticketUpdated="ticketLaneUpdate"
     @newTicket="ticketCreate"
+    @saveLane="laneSave"
+    @createNewLane="laneCreate"
   ></LaneArea>
   <RightSidebar
     v-if="lanesReady && ticketsReady"
@@ -40,6 +42,8 @@ import {
   updateTicket,
   createTicket,
   deleteTicket,
+  updateLane,
+  createLane,
 } from "@/api";
 
 export default defineComponent({
@@ -95,6 +99,12 @@ export default defineComponent({
       };
       this.createNewTicket(newTicket);
     },
+    laneSave(lane: Lane) {
+      this.laneUpdate(lane);
+    },
+    laneCreate(boardId: number) {
+      this.createNewLaneItem(boardId);
+    },
     async ticketLaneUpdate(ticketId: string, laneId: string) {
       const ticket = this.tickets.filter((t) => {
         return t.id.toString() === ticketId;
@@ -107,6 +117,11 @@ export default defineComponent({
         ticketId,
         ticket
       );
+    },
+    async laneUpdate(lane: Lane) {
+      await updateLane(() => {
+        this.fetchData();
+      }, lane);
     },
     async ticketUpdate(ticket: Ticket) {
       await updateTicket(
@@ -126,6 +141,11 @@ export default defineComponent({
       await createTicket(() => {
         this.fetchData();
       }, ticket);
+    },
+    async createNewLaneItem(boardId: number) {
+      await createLane(() => {
+        this.fetchData();
+      }, boardId);
     },
     resolveFetchingProjects(data: Project[]): void {
       this.projectList = data;

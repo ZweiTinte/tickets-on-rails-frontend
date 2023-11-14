@@ -8,8 +8,13 @@
       v-on:drop="drop"
       v-on:dragover="allowDrop"
     >
-      <div class="laneTitle">
-        {{ lane.name }}
+      <div class="flex">
+        <input
+          type="text"
+          v-model="lane.name"
+          class="laneTitle"
+          v-on:blur="saveLane(lane)"
+        />
         <input
           type="button"
           class="newButton"
@@ -29,6 +34,14 @@
         {{ ticket.name }}
       </div>
     </div>
+    <div class="newLaneSection">
+      <input
+        type="button"
+        class="newLaneButton"
+        value="+"
+        v-on:click="newLane(getActiveBoard.id)"
+      />
+    </div>
     <div class="laneAreaBlocker"></div>
   </div>
 </template>
@@ -45,7 +58,13 @@ export default defineComponent({
     tickets: [Array, Object],
     lanes: [Array, Object],
   },
-  emits: ["ticketSelected", "ticketUpdated", "newTicket"],
+  emits: [
+    "createNewLane",
+    "ticketSelected",
+    "ticketUpdated",
+    "newTicket",
+    "saveLane",
+  ],
   data() {
     return {
       ticketsL: this.tickets as Ticket[],
@@ -58,6 +77,12 @@ export default defineComponent({
     },
     newTicket(laneId: number) {
       this.$emit("newTicket", laneId);
+    },
+    saveLane(lane: Lane) {
+      this.$emit("saveLane", lane);
+    },
+    newLane(boardId: number) {
+      this.$emit("createNewLane", boardId);
     },
     drag(ev: DragEvent) {
       ev.dataTransfer?.setData("id", (ev.target as HTMLDivElement)?.id);

@@ -62,6 +62,26 @@ export async function updateTicket(
     .catch();
 }
 
+export async function updateLane(
+  resolveFetching: () => void,
+  lane: Lane
+): Promise<void> {
+  await fetch(`http://localhost:3030/api/lanes/${lane.id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: lane.name,
+      board: lane.board,
+    }),
+  })
+    .then(async (res) => {
+      await res.json().then(resolveFetching).catch();
+    })
+    .catch();
+}
+
 export async function createTicket(
   resolveFetching: () => void,
   ticket: Ticket
@@ -75,6 +95,26 @@ export async function createTicket(
       name: ticket.name,
       description: ticket.description,
       lane: ticket.lane,
+    }),
+  })
+    .then(async (res) => {
+      await res.json().then(resolveFetching).catch();
+    })
+    .catch();
+}
+
+export async function createLane(
+  resolveFetching: () => void,
+  boardId: number
+): Promise<void> {
+  await fetch(`http://localhost:3030/api/lanes`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: "New Lane",
+      board: boardId,
     }),
   })
     .then(async (res) => {

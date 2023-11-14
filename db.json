@@ -43,14 +43,14 @@
       "name": "New"
     },
     {
-      "id": 2,
+      "name": "Backlog",
       "board": 1,
-      "name": "Backlog"
+      "id": 2
     },
     {
-      "id": 3,
+      "name": "In Progress",
       "board": 1,
-      "name": "In Progress"
+      "id": 3
     },
     {
       "id": 4,
@@ -76,6 +76,11 @@
       "id": 8,
       "board": 3,
       "name": "Done"
+    },
+    {
+      "name": "New Lane",
+      "board": 3,
+      "id": 9
     }
   ],
   "tickets": [
@@ -102,6 +107,12 @@
       "lane": 8,
       "name": "Prepare for Job Interview",
       "description": "Practice Vue coding and prepare for challenging questions."
+    },
+    {
+      "name": "New Ticket",
+      "description": "",
+      "lane": 2,
+      "id": 5
     }
   ]
 }

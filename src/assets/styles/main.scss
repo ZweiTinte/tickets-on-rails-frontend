@@ -165,8 +165,16 @@ li {
   background: transparent;
 }
 
+.newLaneSection {
+  margin-top: 1rem;
+  border-radius: 0.25rem;
+  border: 0.15rem solid $defaultHover;
+  height: fit-content;
+  margin-right: 5rem;
+}
+
 .newButton {
-  background-color: transparent;
+  background-color: $itemBackground;
   color: $white;
   border: 0.15rem solid transparent;
   font-size: 1.5rem;
@@ -179,6 +187,17 @@ li {
     border-radius: 0.25rem;
     border: 0.15rem solid $defaultHover;
   }
+}
+
+.newLaneButton {
+  background-color: $itemBackground;
+  color: $white;
+  border: 0.15rem solid transparent;
+  font-size: 1.5rem;
+  width: 2rem;
+  height: 2rem;
+  padding-top: 0;
+  cursor: pointer;
 }
 
 .deleteButton {
